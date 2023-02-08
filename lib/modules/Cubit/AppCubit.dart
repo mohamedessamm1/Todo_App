@@ -1,4 +1,3 @@
-
 import 'package:bottom_sheet/bottom_sheet.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,14 +17,11 @@ class AppCubit extends Cubit<AppStates> {
   List<Widget> ScreenNavigate = [
     HomePage(),
     settings(),
-
   ];
 
-  List<IconData>MyIcons=[
+  List<IconData> MyIcons = [
     Icons.home_outlined,
     Icons.settings,
-
-
   ];
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,17 +32,33 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBottomNavChangeState());
   }
 
-  void showbottomsheet(context){
+  void showbottomsheet(context) {
+    showFlexibleBottomSheet(
 
-    showFlexibleBottomSheet(context: context, builder: buildBottomSheet);
+      context: context,
+      builder: buildBottomSheet,
+    );
     emit(showBottomSheetState());
   }
+
   Widget buildBottomSheet(
-      BuildContext context,
-      ScrollController scrollController,
-      double bottomSheetOffset,
-      ){
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
     return MyBottomSheet();
   }
 
+  DateTime SelectedDate = DateTime.now();
+  void ChooseDate(context) async {
+    var choosendate = await showDatePicker(
+        context: context,
+        initialDate: SelectedDate,
+        firstDate: SelectedDate,
+        lastDate: DateTime.now().add(Duration(days: 365)));
+    if (choosendate != null) {
+      SelectedDate = choosendate;
+    }
+    emit(ChooseDateState());
+  }
 }
