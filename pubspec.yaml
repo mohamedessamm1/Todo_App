@@ -35,7 +35,7 @@ dependencies:
   firebase_core: ^2.4.1
   bloc: ^8.1.0
   flutter_bloc:
-  bottom_sheet: ^3.1.2
+  cloud_firestore: ^4.3.2
 
   flutter:
     sdk: flutter
