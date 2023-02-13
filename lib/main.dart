@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/HomeLayout/HomeLayout.dart';
+import 'package:todo/models/firestore_model.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
 
 import 'firebase_options.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, screenUtil) {
         return BlocProvider(
-          create: (context)=>AppCubit(),
+          create: (context)=>AppCubit()..GetAllTasks(),
           child: MaterialApp(
                 theme: ThemeData(
                     fontFamily: 'cairo',
