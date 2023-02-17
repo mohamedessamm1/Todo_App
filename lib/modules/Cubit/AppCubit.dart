@@ -36,12 +36,9 @@ class AppCubit extends Cubit<AppStates> {
   DateTime myDate= DateTime.now();
 
   List<Task> mytaskslist = [];
-  void addtask(
-      {required GlobalKey<FormState>
-      form,
-      context,
-      titlecontrol,
-      describecontrol}) {
+  void addtask({required GlobalKey<FormState>form, context, titlecontrol, describecontrol}) {
+    emit(TaskLoadingState());
+
     if (form.currentState?.validate() == true) {
       Task task = Task(
         title: titlecontrol.toString(),
@@ -51,28 +48,35 @@ class AppCubit extends Cubit<AppStates> {
       addtasktofirestore(task).timeout(Duration(milliseconds: 500),
           onTimeout: () {
         print('task done ');
-        emit(AddTaskState());
-          });
+        emit(TaskSuccesState());
+          }).catchError((error){
+            emit(TaskerrorState());
+      });
       Navigator.pop(context);
-    }
-    emit(alldone());
-  }
-  void GetAllTasks() async {
-    QuerySnapshot<Task> mytask = await GetTaskCollection().get();
-    mytaskslist = mytask.docs.map((e) {
-      return e.data();
-    }).toList();
-    emit(GetAllTasksState());
+    }}
+
+  void GetAllTasks()  {
+    emit(GetAllTasksLoadingState());
+    GetTaskCollection().get().then((value){
+      mytaskslist = value.docs.map((e){
+        return e.data();
+      }).toList();
+      emit(GetAllTasksDoneState());
+    }).catchError((error){
+      emit(GetAllTasksErorrState());
+    });
   }
 
   CollectionReference<Task> GetTaskCollection() {
-    return FirebaseFirestore.instance.collection('4').withConverter<Task>(
+    emit(GetCollectionLoadingState());
+    return FirebaseFirestore.instance.collection('1').withConverter<Task>(
         fromFirestore: ((snapshot, option) => Task.fromJson(snapshot.data()!)),
         toFirestore: (Task, option) => Task.toJson()
     );
   }
 
   Future <void> addtasktofirestore(Task task) {
+    emit(AddTASKLoadingState());
     var collection = GetTaskCollection();
     var docref = collection.doc();
     task.id = docref.id;
@@ -80,4 +84,8 @@ class AppCubit extends Cubit<AppStates> {
   }
 
 
+
+  Future<void> DeleteTask(id) {
+    return GetTaskCollection().doc(id).delete();
+  }
 }

@@ -2,7 +2,6 @@ import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:todo/firestore/firestore_utils.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
 import 'package:todo/modules/Cubit/AppState.dart';
 
@@ -20,23 +19,31 @@ class MyBottomSheet extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CalendarTimeline(
-                    initialDate: AppCubit.get(context).SelectedDate ,
-                    firstDate: DateTime.now().subtract(Duration(days: 5)),
-                    lastDate:DateTime.now().add(Duration(days: 7)),
-                    onDateSelected: (date){
-                      AppCubit.get(context).SelectedDate = date;
-                      print(AppCubit.get(context).SelectedDate.day);
-                    },
-                    leftMargin: 20.w,
-                    monthColor: Colors.blueGrey,
-                    dayColor: Colors.teal[200],
-                    activeDayColor: Colors.white,
-                    activeBackgroundDayColor: Colors.redAccent[100],
-                    dotsColor: Color(0xFF333A47),
-                    selectableDayPredicate: (date) => date.day != 23,
-                    locale: 'en_ISO',
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade900,
+                      borderRadius: BorderRadius.all(Radius.circular(20.r))
+
+                    ),
+                    child: CalendarTimeline(
+                      initialDate: AppCubit.get(context).SelectedDate ,
+                      firstDate: DateTime.now().subtract(Duration(days: 5)),
+                      lastDate:DateTime.now().add(Duration(days: 7)),
+                      onDateSelected: (date){
+                        AppCubit.get(context).SelectedDate = date;
+                        print(AppCubit.get(context).SelectedDate.day);
+                      },
+                      leftMargin: 20.w,
+                      monthColor: Colors.blueGrey,
+                      dayColor: Colors.teal[200],
+                      activeDayColor: Colors.white,
+                      activeBackgroundDayColor: Colors.redAccent[100],
+                      dotsColor: Color(0xFF333A47),
+                      selectableDayPredicate: (date) => date.day != 23,
+                      locale: 'en_ISO',
+                    ),
                   ),
+                  SizedBox(height: 15,),
                   SizedBox(
                     height: 400.h,
                     child: Center(
@@ -123,28 +130,6 @@ class MyBottomSheet extends StatelessWidget {
                                   SizedBox(
                                     height: 30.h,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                    },
-                                    child: Container(
-                                      height: 40.h,
-                                      width: 120.w,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10.r),
-                                          color: Colors.red[300]),
-                                      child: Center(
-                                        child: Text(
-                                            style: TextStyle(
-                                                fontSize: 22.sp,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                            '${AppCubit.get(context).SelectedDate.day}'
-                                            '/${AppCubit.get(context).SelectedDate.month}'
-                                            '/${AppCubit.get(context).SelectedDate.year}'
-                                            ''),
-                                      ),
-                                    ),
-                                  ),
                                   SizedBox(
                                     height: 20.h,
                                   ),
@@ -155,6 +140,7 @@ class MyBottomSheet extends StatelessWidget {
                                           context: context,
                                           titlecontrol: titlecont.text,
                                           describecontrol: describecont.text);
+                                      AppCubit.get(context).GetAllTasks();
                                     },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,

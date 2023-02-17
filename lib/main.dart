@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, screenUtil) {
         return BlocProvider(
-          create: (context)=>AppCubit()..GetAllTasks(),
+          create: (context)=>AppCubit()..GetAllTasks()..GetTaskCollection(),
           child: MaterialApp(
                 theme: ThemeData(
                     fontFamily: 'cairo',
