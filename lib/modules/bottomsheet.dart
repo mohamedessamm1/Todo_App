@@ -1,7 +1,10 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
 import 'package:todo/modules/Cubit/AppState.dart';
 
@@ -14,43 +17,63 @@ class MyBottomSheet extends StatelessWidget {
           var formkey = GlobalKey<FormState>();
           var titlecont = TextEditingController();
           var describecont = TextEditingController();
-          return Form(
-            key: formkey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade900,
-                      borderRadius: BorderRadius.all(Radius.circular(20.r))
-
+          return GlassmorphicFlexContainer(
+            borderRadius: 20.r,
+            blur: 5,
+            padding: EdgeInsets.only(top: 90.h,bottom: 10.h),
+            alignment: Alignment.bottomCenter,
+            border: 0.1,
+            linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFffffff).withOpacity(0.1),
+                  Color(0xFFFFFFFF).withOpacity(0.05),
+                ],
+                stops: [
+                  0.1,
+                  1,
+                ]),
+            borderGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFffffff).withOpacity(0.5),
+                Color((0xFFFFFFFF)).withOpacity(0.5),
+              ],
+            ),
+            child: Form(
+              key: formkey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10.h,
                     ),
-                    child: CalendarTimeline(
-                      initialDate: AppCubit.get(context).SelectedDate ,
+
+                    CalendarTimeline(
+                      initialDate: AppCubit.get(context).SelectedDate,
                       firstDate: DateTime.now().subtract(Duration(days: 5)),
-                      lastDate:DateTime.now().add(Duration(days: 7)),
-                      onDateSelected: (date){
+                      lastDate: DateTime.now().add(Duration(days: 30)),
+                      onDateSelected: (date) {
                         AppCubit.get(context).SelectedDate = date;
                         print(AppCubit.get(context).SelectedDate.day);
                       },
                       leftMargin: 20.w,
                       monthColor: Colors.blueGrey,
-                      dayColor: Colors.teal[200],
+                      dayColor: Colors.white,
                       activeDayColor: Colors.white,
-                      activeBackgroundDayColor: Colors.redAccent[100],
+                      activeBackgroundDayColor: Colors.indigo,
                       dotsColor: Color(0xFF333A47),
                       selectableDayPredicate: (date) => date.day != 23,
                       locale: 'en_ISO',
                     ),
-                  ),
-                  SizedBox(height: 15,),
-                  SizedBox(
-                    height: 400.h,
-                    child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade900,
-                            borderRadius: BorderRadius.all(Radius.circular(20.r))),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    SizedBox(
+                      height: 400.h,
+                      child: Center(
                         child: Column(
                           children: [
                             Padding(
@@ -68,25 +91,28 @@ class MyBottomSheet extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600),
                                     keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
-                                        hintText: ' to enter your title',
-                                        contentPadding:
-                                            EdgeInsets.symmetric(horizontal: 15.w),
+                                        hintText: 'enter your title',
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 15.w),
                                         filled: true,
                                         fillColor: Colors.grey.shade300,
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.r),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
                                           borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey.shade300), //<-- SEE HERE
+                                              color: Colors.grey
+                                                  .shade300), //<-- SEE HERE
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.r),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
                                           borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey.shade400), //<-- SEE HERE
+                                              color: Colors.grey
+                                                  .shade400), //<-- SEE HERE
                                         ),
                                         border: OutlineInputBorder(
                                             borderRadius:
@@ -103,25 +129,28 @@ class MyBottomSheet extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600),
                                     keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
                                         hintText: 'enter your task details',
-                                        contentPadding:
-                                            EdgeInsets.symmetric(horizontal: 15.w),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 15.w),
                                         filled: true,
                                         fillColor: Colors.grey.shade300,
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.r),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
                                           borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey.shade300), //<-- SEE HERE
+                                              color: Colors.grey
+                                                  .shade300), //<-- SEE HERE
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.r),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
                                           borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey.shade300), //<-- SEE HERE
+                                              color: Colors.grey
+                                                  .shade300), //<-- SEE HERE
                                         ),
                                         border: OutlineInputBorder(
                                             borderRadius:
@@ -135,15 +164,28 @@ class MyBottomSheet extends StatelessWidget {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
+
                                       AppCubit.get(context).addtask(
                                           form: formkey,
                                           context: context,
                                           titlecontrol: titlecont.text,
                                           describecontrol: describecont.text);
                                       AppCubit.get(context).GetAllTasks();
+                                      CherryToast(
+                                          icon: Icons.done,
+                                          themeColor: Colors.indigo,
+                                          title: Text('your task added successfully'),
+                                          displayTitle:  true,
+                                          displayCloseButton: false,
+                                          toastPosition: Position.bottom,
+                                          animationDuration: Duration(milliseconds:  1000),
+                                          autoDismiss:  true
+                                      ).show(context);
+
                                     },
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Row(
                                           children: [
@@ -175,8 +217,8 @@ class MyBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

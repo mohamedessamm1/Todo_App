@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/HomeLayout/HomeLayout.dart';
 import 'package:todo/models/firestore_model.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
+import 'package:todo/modules/Cubit/AppState.dart';
 
 import 'firebase_options.dart';
 
@@ -27,8 +28,28 @@ class MyApp extends StatelessWidget {
       builder: (context, screenUtil) {
         return BlocProvider(
           create: (context)=>AppCubit()..GetAllTasks()..GetTaskCollection(),
-          child: MaterialApp(
+          child: BlocConsumer<AppCubit,AppStates>(
+            listener: (context,state){},
+            builder: (context,state){
+           return   MaterialApp(
+                themeMode: AppCubit.get(context).isdark?ThemeMode.dark:ThemeMode.light,
                 theme: ThemeData(
+                    fontFamily: 'cairo',
+                    primaryColor: const Color(0xff1a7b8c),
+                    appBarTheme: AppBarTheme(
+                      backgroundColor: Colors.white,
+                      centerTitle: true,
+                      iconTheme: IconThemeData(color: Colors.black),
+
+
+                    ),
+                    floatingActionButtonTheme: FloatingActionButtonThemeData(
+
+
+                    ),
+                    scaffoldBackgroundColor: Colors.white
+                ),
+                darkTheme: ThemeData(
                     fontFamily: 'cairo',
                     primaryColor: const Color(0xff1a7b8c),
                     appBarTheme: AppBarTheme(
@@ -47,7 +68,9 @@ class MyApp extends StatelessWidget {
 
                 debugShowCheckedModeBanner: false,
                 home: HomeLayout(),
-              ),
+              );
+            },
+          )
         );
       },
     );

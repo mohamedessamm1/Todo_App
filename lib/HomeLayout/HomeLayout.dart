@@ -14,10 +14,40 @@ class HomeLayout extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text('mawa3idy'),
+          appBar:  AppCubit.get(context).isdark ?   AppBar(
             centerTitle: true,
-            backgroundColor: Colors.indigo,
+            title: Text(
+              'mawa3idy',
+              style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0.r),
+                    bottomRight: Radius.circular(30.0.r))),
+            elevation: 8,
+            backgroundColor: Colors.grey.shade900,
+          ):PreferredSize(
+            preferredSize: AppBar().preferredSize,
+            child: SafeArea(
+              child: Container(
+                color: Colors.white,
+                child: AppBar(
+                  centerTitle: true,
+                  title: Text(
+                    'mawa3idy',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.0.r),
+                          bottomRight: Radius.circular(30.0.r))),
+                  elevation: 8,
+                  backgroundColor: Colors.grey.shade400,
+                ),
+              ),
+            ),
           ),
           body: AppCubit.get(context)
               .ScreenNavigate[AppCubit.get(context).CurrentIndex],
@@ -25,12 +55,14 @@ class HomeLayout extends StatelessWidget {
             backgroundColor: Colors.indigo,
             child: Icon(Icons.add),
             onPressed: () {
-              showDialog(context: context, builder: (context){
-                return Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: MyBottomSheet(),
-                );
-              });
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: MyBottomSheet(),
+                    );
+                  });
             },
           ),
           floatingActionButtonLocation:
@@ -38,14 +70,16 @@ class HomeLayout extends StatelessWidget {
           bottomNavigationBar: AnimatedBottomNavigationBar(
             icons: AppCubit.get(context).MyIcons,
             activeColor: Colors.indigo,
-            elevation: 1,
+            elevation: 5,
             height: 50.h,
             borderWidth: 1.5.w,
             splashColor: Colors.indigo,
-            inactiveColor: Colors.grey,
+            inactiveColor: Colors.grey.shade400,
             iconSize: 28.w,
             borderColor: Colors.grey.shade800,
-            backgroundColor: Colors.black,
+            backgroundColor: AppCubit.get(context).isdark
+                ? Colors.black
+                : Colors.grey.shade600,
             activeIndex: AppCubit.get(context).CurrentIndex,
             gapLocation: GapLocation.center,
             leftCornerRadius: 10.w,

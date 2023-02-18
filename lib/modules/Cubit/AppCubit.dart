@@ -80,12 +80,27 @@ class AppCubit extends Cubit<AppStates> {
     var collection = GetTaskCollection();
     var docref = collection.doc();
     task.id = docref.id;
-    return docref.set(task);
+    print(task.id);
+    return docref.set(task).then((value){
+      emit(AddTASKdoneState(task));
+    });
   }
 
 
 
-  Future<void> DeleteTask(id) {
-    return GetTaskCollection().doc(id).delete();
+  Future<void> DeleteTask(Task task) {
+    print(task.id);
+    emit(DeleteTaskLoadingState());
+    return GetTaskCollection().doc(task.id).delete().then((value){
+      emit(DeleteTaskDoneState());
+    }).catchError((error){
+      emit(DeleteTaskErrorState());
+    });
   }
+  bool isdark=false;
+  void changeTheme(){
+    isdark=!isdark;
+    emit(IsDarkState());
+  }
+
 }
