@@ -9,16 +9,15 @@ import 'package:todo/modules/Cubit/AppState.dart';
 
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -27,54 +26,44 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, screenUtil) {
         return BlocProvider(
-          create: (context)=>AppCubit()..GetAllTasks()..GetTaskCollection(),
-          child: BlocConsumer<AppCubit,AppStates>(
-            listener: (context,state){},
-            builder: (context,state){
-           return   MaterialApp(
-                themeMode: AppCubit.get(context).isdark?ThemeMode.dark:ThemeMode.light,
-                theme: ThemeData(
-                    fontFamily: 'cairo',
-                    primaryColor: const Color(0xff1a7b8c),
-                    appBarTheme: AppBarTheme(
-                      backgroundColor: Colors.white,
-                      centerTitle: true,
-                      iconTheme: IconThemeData(color: Colors.black),
-
-
-                    ),
-                    floatingActionButtonTheme: FloatingActionButtonThemeData(
-
-
-                    ),
-                    scaffoldBackgroundColor: Colors.white
-                ),
-                darkTheme: ThemeData(
-                    fontFamily: 'cairo',
-                    primaryColor: const Color(0xff1a7b8c),
-                    appBarTheme: AppBarTheme(
-                      backgroundColor: Colors.black,
-                      centerTitle: true,
-                      iconTheme: IconThemeData(color: Colors.white),
-
-
-                    ),
-                    floatingActionButtonTheme: FloatingActionButtonThemeData(
-
-
-                    ),
-                    scaffoldBackgroundColor: Colors.black
-                ),
-
-                debugShowCheckedModeBanner: false,
-                home: HomeLayout(),
-              );
-            },
-          )
-        );
+            create: (context) => AppCubit()
+              ..GetAllTasks()
+              ..GetTaskCollection(),
+            child: BlocConsumer<AppCubit, AppStates>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return MaterialApp(
+                  themeMode: AppCubit.get(context).isdark
+                      ? ThemeMode.dark
+                      : ThemeMode.light,
+                  theme: ThemeData(
+                      fontFamily: 'cairo',
+                      primaryColor: const Color(0xff1a7b8c),
+                      appBarTheme: const AppBarTheme(
+                        backgroundColor: Colors.white,
+                        centerTitle: true,
+                        iconTheme: IconThemeData(color: Colors.black),
+                      ),
+                      floatingActionButtonTheme:
+                          const FloatingActionButtonThemeData(),
+                      scaffoldBackgroundColor: Colors.white),
+                  darkTheme: ThemeData(
+                      fontFamily: 'cairo',
+                      primaryColor: const Color(0xff1a7b8c),
+                      appBarTheme: const AppBarTheme(
+                        backgroundColor: Colors.black,
+                        centerTitle: true,
+                        iconTheme: IconThemeData(color: Colors.white),
+                      ),
+                      floatingActionButtonTheme:
+                          const FloatingActionButtonThemeData(),
+                      scaffoldBackgroundColor: Colors.black),
+                  debugShowCheckedModeBanner: false,
+                  home: HomeLayout(),
+                );
+              },
+            ));
       },
     );
   }
 }
-
-

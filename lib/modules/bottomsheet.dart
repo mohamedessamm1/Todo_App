@@ -9,6 +9,8 @@ import 'package:todo/modules/Cubit/AppCubit.dart';
 import 'package:todo/modules/Cubit/AppState.dart';
 
 class MyBottomSheet extends StatelessWidget {
+  const MyBottomSheet({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -20,17 +22,17 @@ class MyBottomSheet extends StatelessWidget {
           return GlassmorphicFlexContainer(
             borderRadius: 20.r,
             blur: 5,
-            padding: EdgeInsets.only(top: 90.h,bottom: 10.h),
+            padding: EdgeInsets.only(top: 90.h, bottom: 10.h),
             alignment: Alignment.bottomCenter,
             border: 0.1,
             linearGradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFffffff).withOpacity(0.1),
-                  Color(0xFFFFFFFF).withOpacity(0.05),
+                  const Color(0xFFffffff).withOpacity(0.1),
+                  const Color(0xFFFFFFFF).withOpacity(0.05),
                 ],
-                stops: [
+                stops: const [
                   0.1,
                   1,
                 ]),
@@ -38,8 +40,8 @@ class MyBottomSheet extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color(0xFFffffff).withOpacity(0.5),
-                Color((0xFFFFFFFF)).withOpacity(0.5),
+                const Color(0xFFffffff).withOpacity(0.5),
+                const Color((0xFFFFFFFF)).withOpacity(0.5),
               ],
             ),
             child: Form(
@@ -50,21 +52,19 @@ class MyBottomSheet extends StatelessWidget {
                     SizedBox(
                       height: 10.h,
                     ),
-
                     CalendarTimeline(
                       initialDate: AppCubit.get(context).SelectedDate,
-                      firstDate: DateTime.now().subtract(Duration(days: 5)),
-                      lastDate: DateTime.now().add(Duration(days: 30)),
+                      firstDate: DateTime.now().subtract(const Duration(days: 5)),
+                      lastDate: DateTime.now().add(const Duration(days: 30)),
                       onDateSelected: (date) {
                         AppCubit.get(context).SelectedDate = date;
-                        print(AppCubit.get(context).SelectedDate.day);
                       },
                       leftMargin: 20.w,
                       monthColor: Colors.blueGrey,
                       dayColor: Colors.white,
                       activeDayColor: Colors.white,
                       activeBackgroundDayColor: Colors.indigo,
-                      dotsColor: Color(0xFF333A47),
+                      dotsColor: const Color(0xFF333A47),
                       selectableDayPredicate: (date) => date.day != 23,
                       locale: 'en_ISO',
                     ),
@@ -91,8 +91,8 @@ class MyBottomSheet extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600),
+                                    style:
+                                        const TextStyle(fontWeight: FontWeight.w600),
                                     keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
                                         hintText: 'enter your title',
@@ -129,8 +129,8 @@ class MyBottomSheet extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600),
+                                    style:
+                                        const TextStyle(fontWeight: FontWeight.w600),
                                     keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
                                         hintText: 'enter your task details',
@@ -164,7 +164,6 @@ class MyBottomSheet extends StatelessWidget {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-
                                       AppCubit.get(context).addtask(
                                           form: formkey,
                                           context: context,
@@ -172,17 +171,24 @@ class MyBottomSheet extends StatelessWidget {
                                           describecontrol: describecont.text);
                                       AppCubit.get(context).GetAllTasks();
                                       CherryToast(
-                                          icon: Icons.done,
-                                          themeColor: Colors.indigo,
-                                          title: Text('your task added successfully'),
-                                          displayTitle:  true,
-                                          displayCloseButton: false,
-                                          toastPosition: Position.bottom,
-                                          animationDuration: Duration(milliseconds:  1000),
-                                          autoDismiss:  true
-                                      ).show(context);
-
+                                              icon: Icons.done,
+                                              themeColor: Colors.indigo,
+                                              title: const Text(
+                                                  'your task added successfully'),
+                                              displayTitle: true,
+                                              displayCloseButton: false,
+                                              toastPosition: Position.bottom,
+                                              animationDuration:
+                                                  const Duration(milliseconds: 1000),
+                                              autoDismiss: true)
+                                          .show(context);
                                     },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: Size(300.w, 50.h),
+                                        backgroundColor: Colors.indigo,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.r))),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -203,12 +209,6 @@ class MyBottomSheet extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(300.w, 50.h),
-                                        backgroundColor: Colors.indigo,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.r))),
                                   ),
                                 ],
                               ),

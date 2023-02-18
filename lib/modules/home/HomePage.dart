@@ -1,13 +1,13 @@
-import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
 import 'package:todo/modules/Cubit/AppState.dart';
 import 'package:todo/modules/home/ItemTask.dart';
-import 'package:todo/shared/componant.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         return AppCubit.get(context).mytaskslist.isEmpty
             ? Scaffold(
-          backgroundColor:
+                backgroundColor:
                     AppCubit.get(context).isdark ? Colors.black : Colors.white,
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -35,10 +35,8 @@ class HomePage extends StatelessWidget {
                 ),
               )
             : Scaffold(
-
-          body: Column(
-                  children: [
-                    Expanded(child: ItemTaskList())],
+                body: Column(
+                  children: const [Expanded(child: ItemTaskList())],
                 ),
               );
       },

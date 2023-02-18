@@ -14,46 +14,48 @@ class HomeLayout extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar:  AppCubit.get(context).isdark ?   AppBar(
-            centerTitle: true,
-            title: Text(
-              'mawa3idy',
-              style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0.r),
-                    bottomRight: Radius.circular(30.0.r))),
-            elevation: 8,
-            backgroundColor: Colors.grey.shade900,
-          ):PreferredSize(
-            preferredSize: AppBar().preferredSize,
-            child: SafeArea(
-              child: Container(
-                color: Colors.white,
-                child: AppBar(
+          appBar: AppCubit.get(context).isdark
+              ? AppBar(
                   centerTitle: true,
-                  title: Text(
+                  title: const Text(
                     'mawa3idy',
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30.0.r),
                           bottomRight: Radius.circular(30.0.r))),
                   elevation: 8,
-                  backgroundColor: Colors.grey.shade400,
+                  backgroundColor: Colors.grey.shade900,
+                )
+              : PreferredSize(
+                  preferredSize: AppBar().preferredSize,
+                  child: SafeArea(
+                    child: Container(
+                      color: Colors.white,
+                      child: AppBar(
+                        centerTitle: true,
+                        title: const Text(
+                          'mawa3idy',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30.0.r),
+                                bottomRight: Radius.circular(30.0.r))),
+                        elevation: 8,
+                        backgroundColor: Colors.grey.shade400,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
           body: AppCubit.get(context)
               .ScreenNavigate[AppCubit.get(context).CurrentIndex],
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.indigo,
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             onPressed: () {
               showDialog(
                   context: context,

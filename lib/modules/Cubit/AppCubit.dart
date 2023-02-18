@@ -6,7 +6,6 @@ import 'package:todo/modules/Cubit/AppState.dart';
 import 'package:todo/modules/home/HomePage.dart';
 
 import 'package:todo/modules/settings/Settings.dart';
-import 'dart:math';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -14,8 +13,8 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
 
   /////////////////////////////////////////////////////////////////
-  List<Widget> ScreenNavigate = [
-    HomePage(),
+   List<Widget> ScreenNavigate = [
+    const HomePage(),
     settings(),
   ];
 
@@ -33,10 +32,14 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   DateTime SelectedDate = DateTime.now();
-  DateTime myDate= DateTime.now();
+  DateTime myDate = DateTime.now();
 
   List<Task> mytaskslist = [];
-  void addtask({required GlobalKey<FormState>form, context, titlecontrol, describecontrol}) {
+  void addtask(
+      {required GlobalKey<FormState> form,
+      context,
+      titlecontrol,
+      describecontrol}) {
     emit(TaskLoadingState());
 
     if (form.currentState?.validate() == true) {
@@ -45,24 +48,24 @@ class AppCubit extends Cubit<AppStates> {
         describe: describecontrol.toString(),
         date: SelectedDate.day,
       );
-      addtasktofirestore(task).timeout(Duration(milliseconds: 500),
+      addtasktofirestore(task).timeout(const Duration(milliseconds: 500),
           onTimeout: () {
-        print('task done ');
         emit(TaskSuccesState());
-          }).catchError((error){
-            emit(TaskerrorState());
+      }).catchError((error) {
+        emit(TaskerrorState());
       });
       Navigator.pop(context);
-    }}
+    }
+  }
 
-  void GetAllTasks()  {
+  void GetAllTasks() {
     emit(GetAllTasksLoadingState());
-    GetTaskCollection().get().then((value){
-      mytaskslist = value.docs.map((e){
+    GetTaskCollection().get().then((value) {
+      mytaskslist = value.docs.map((e) {
         return e.data();
       }).toList();
       emit(GetAllTasksDoneState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(GetAllTasksErorrState());
     });
   }
@@ -71,36 +74,33 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetCollectionLoadingState());
     return FirebaseFirestore.instance.collection('1').withConverter<Task>(
         fromFirestore: ((snapshot, option) => Task.fromJson(snapshot.data()!)),
-        toFirestore: (Task, option) => Task.toJson()
-    );
+        toFirestore: (Task, option) => Task.toJson());
   }
 
-  Future <void> addtasktofirestore(Task task) {
+  Future<void> addtasktofirestore(Task task) {
     emit(AddTASKLoadingState());
     var collection = GetTaskCollection();
     var docref = collection.doc();
     task.id = docref.id;
     print(task.id);
-    return docref.set(task).then((value){
+    return docref.set(task).then((value) {
       emit(AddTASKdoneState(task));
     });
   }
 
-
-
   Future<void> DeleteTask(Task task) {
     print(task.id);
     emit(DeleteTaskLoadingState());
-    return GetTaskCollection().doc(task.id).delete().then((value){
+    return GetTaskCollection().doc(task.id).delete().then((value) {
       emit(DeleteTaskDoneState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(DeleteTaskErrorState());
     });
   }
-  bool isdark=false;
-  void changeTheme(){
-    isdark=!isdark;
+
+  bool isdark = false;
+  void changeTheme() {
+    isdark = !isdark;
     emit(IsDarkState());
   }
-
 }

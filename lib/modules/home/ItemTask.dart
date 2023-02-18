@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todo/models/firestore_model.dart';
 import 'package:todo/modules/Cubit/AppCubit.dart';
 import 'package:todo/modules/Cubit/AppState.dart';
 
 class ItemTaskList extends StatelessWidget {
+  const ItemTaskList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -24,26 +25,25 @@ class ItemTaskList extends StatelessWidget {
 
                   // The start action pane is the one at the left or the top side.
                   startActionPane: ActionPane(
-                    motion: ScrollMotion(),
+                    motion: const ScrollMotion(),
                     children: [
                       SlidableAction(
                         onPressed: (context) {
                           CherryToast(
-                              icon: Icons.delete,
-                              displayCloseButton: false,
-
-                              themeColor: Colors.red,
-                              title: Text('your task deleted successfully'),
-                              displayTitle:  true,
-                              toastPosition: Position.bottom,
-                              animationDuration: Duration(milliseconds:  1000),
-                              autoDismiss:  true
-                          ).show(context);
+                                  icon: Icons.delete,
+                                  displayCloseButton: false,
+                                  themeColor: Colors.red,
+                                  title: const Text('your task deleted successfully'),
+                                  displayTitle: true,
+                                  toastPosition: Position.bottom,
+                                  animationDuration:
+                                      const Duration(milliseconds: 1000),
+                                  autoDismiss: true)
+                              .show(context);
 
                           AppCubit.get(context).DeleteTask(
                               AppCubit.get(context).mytaskslist[index]);
                           AppCubit.get(context).GetAllTasks();
-
                         },
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
@@ -67,7 +67,8 @@ class ItemTaskList extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15.w,right: 15.w,top: 4.h,bottom: 2.h),
+                        padding: EdgeInsets.only(
+                            left: 15.w, right: 15.w, top: 4.h, bottom: 2.h),
                         child: Row(
                           children: [
                             Container(
@@ -81,75 +82,79 @@ class ItemTaskList extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 40.w),
                               child: Column(
-
                                 children: [
                                   SizedBox(
-                                    width:200.w,
+                                    width: 200.w,
                                     child: Column(
                                       children: [
                                         Text(
                                           maxLines: 1,
-                                          '${AppCubit.get(context).mytaskslist[index].title.toString()}',
+                                          AppCubit.get(context).mytaskslist[index].title.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 26.sp,
                                               color: Colors.indigo),
                                         ),
-                                        SizedBox(height: 8.h,),
-                                        Text(maxLines: 3,
-                                          '${AppCubit.get(context).mytaskslist[index].describe.toString()}',
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        Text(
+                                          maxLines: 3,
+                                          AppCubit.get(context).mytaskslist[index].describe.toString(),
                                           style: TextStyle(
-                                              fontSize: 16.sp, color: Colors.white),
+                                              fontSize: 16.sp,
+                                              color: Colors.white),
                                         ),
                                       ],
                                     ),
                                   ),
-                                   Spacer(),
-                                   Text(
+                                  const Spacer(),
+                                  Text(
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     'Day: ${AppCubit.get(context).mytaskslist[index].date.toString()}',
                                     style: TextStyle(
                                         fontSize: 18.sp, color: Colors.grey),
                                   ),
-                                  SizedBox(height: 5.h,)
-
+                                  SizedBox(
+                                    height: 5.h,
+                                  )
                                 ],
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Container(
-                              child: AnimatedIconButton(
-                                disabledColor: Colors.red,
-                                icons: [
-                                  AnimatedIconItem(
-                                    icon: Icon(Icons.done, color: Colors.white),
-                                  )
-                                ],
-                                onPressed: () {
-                                  CherryToast(
-                                      icon: Icons.done,
-                                      themeColor: Colors.green,
-                                      title: Text('done'),
-                                      displayTitle:  true,
-                                      displayCloseButton: false,
-                                      toastPosition: Position.bottom,
-                                      animationDuration: Duration(milliseconds:  1000),
-                                      autoDismiss:  true
-                                  ).show(context);
-                                  AppCubit.get(context).DeleteTask(
-                                      AppCubit.get(context).mytaskslist[index]);
-                                  AppCubit.get(context).GetAllTasks();
-                                },
-                              ),
                               decoration: BoxDecoration(
                                 color: Colors.green,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               height: 45.h,
                               width: 69.w,
+                              child: AnimatedIconButton(
+                                disabledColor: Colors.red,
+                                icons: const [
+                                  AnimatedIconItem(
+                                    icon: Icon(Icons.done, color: Colors.white),
+                                  )
+                                ],
+                                onPressed: () {
+                                  CherryToast(
+                                          icon: Icons.done,
+                                          themeColor: Colors.green,
+                                          title: const Text('done'),
+                                          displayTitle: true,
+                                          displayCloseButton: false,
+                                          toastPosition: Position.bottom,
+                                          animationDuration:
+                                              const Duration(milliseconds: 1000),
+                                          autoDismiss: true)
+                                      .show(context);
+                                  AppCubit.get(context).DeleteTask(
+                                      AppCubit.get(context).mytaskslist[index]);
+                                  AppCubit.get(context).GetAllTasks();
+                                },
+                              ),
                             ),
                           ],
                         ),
